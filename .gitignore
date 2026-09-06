@@ -1,0 +1,14 @@
+## Archivos de compilación de .NET
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+
+## Visual Studio / VS Code
+.vs/
+.vscode/
+
+## Otros
+*.log

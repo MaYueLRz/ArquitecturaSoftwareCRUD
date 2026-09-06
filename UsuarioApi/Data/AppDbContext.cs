@@ -1,12 +1,11 @@
-using Micosoft.EntityFrameworkCore;
-using UsuariosApi.Entites;
+using Microsoft.EntityFrameworkCore;
+using UsuarioApi.Entities;
 
-namespace UsuariosApi.Data
+namespace UsuarioApi.Data;
+
+public class AppDbContext : DbContext
 {
-    public class AppDbContext : DbContext
-    {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Usuario> Usuarios { get; set; } = > Set<Usuario>();
-    }
+    public DbSet<Usuario> Usuarios => Set<Usuario>();
 }
