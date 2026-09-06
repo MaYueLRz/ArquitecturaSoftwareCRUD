@@ -238,6 +238,10 @@ El archivo `script-base-datos.sql` (en la raíz del repositorio) contiene el scr
 
 Capturas de Swagger que demuestran las cinco operaciones CRUD, el manejo de errores y las mejoras del reto adicional.
 
+### Vista general
+
+![Endpoints en Swagger](docs/capturas/00-swagger-endpoints.png)
+
 ### Operaciones CRUD
 
 | Operación | Código | Captura |
@@ -268,6 +272,14 @@ Capturas de Swagger que demuestran las cinco operaciones CRUD, el manejo de erro
 | Evidencia | Captura |
 |---|---|
 | Tabla `Usuarios` en SQL Server | ![Base de datos](docs/capturas/11-base-datos.png) |
+
+---
+
+## Respuestas de análisis
+
+Las respuestas a las 10 preguntas obligatorias (sección 19 del taller) están en
+**[docs/respuestas-analisis.md](docs/respuestas-analisis.md)**, con referencias al código de este repositorio
+y un diagrama de secuencia del recorrido completo de una petición `POST`.
 
 ---
 
