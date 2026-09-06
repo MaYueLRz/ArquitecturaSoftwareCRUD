@@ -8,4 +8,7 @@ public class Usuario
     public string Telefono { get; set; } = string.Empty;
     public bool Activo { get; set; } = true;
     public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
+
+    // Reto adicional: auditoria basica. Queda en null hasta la primera actualizacion.
+    public DateTime? FechaActualizacion { get; set; }
 }

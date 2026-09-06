@@ -6,6 +6,9 @@ namespace UsuarioApi.Services;
 
 public class UsuarioService : IUsuarioService
 {
+    private const int TamanoPaginaPorDefecto = 10;
+    private const int TamanoPaginaMaximo = 50;
+
     private readonly IUsuarioRepository _repository;
 
     public UsuarioService(IUsuarioRepository repository)
@@ -13,10 +16,22 @@ public class UsuarioService : IUsuarioService
         _repository = repository;
     }
 
-    public async Task<List<UsuarioResponseDto>> ObtenerTodosAsync()
+    public async Task<ResultadoPaginadoDto<UsuarioResponseDto>> ObtenerTodosAsync(string? buscar, int pagina, int tamanoPagina)
     {
-        var usuarios = await _repository.ObtenerTodosAsync();
-        return usuarios.Select(Mapear).ToList();
+        // Reglas de paginacion: nunca pedir una pagina menor a 1 ni traer mas de 50 registros.
+        pagina = pagina < 1 ? 1 : pagina;
+        tamanoPagina = tamanoPagina < 1 ? TamanoPaginaPorDefecto : tamanoPagina;
+        tamanoPagina = tamanoPagina > TamanoPaginaMaximo ? TamanoPaginaMaximo : tamanoPagina;
+
+        var (usuarios, totalRegistros) = await _repository.BuscarAsync(buscar, pagina, tamanoPagina);
+        var totalPaginas = (int)Math.Ceiling(totalRegistros / (double)tamanoPagina);
+
+        return new ResultadoPaginadoDto<UsuarioResponseDto>(
+            usuarios.Select(Mapear).ToList(),
+            pagina,
+            tamanoPagina,
+            totalRegistros,
+            totalPaginas);
     }
 
     public async Task<UsuarioResponseDto?> ObtenerPorIdAsync(int id)
@@ -52,6 +67,9 @@ public class UsuarioService : IUsuarioService
         usuario.Telefono = dto.Telefono.Trim();
         usuario.Activo = dto.Activo;
 
+        // Auditoria: se sella la fecha en cada actualizacion efectiva.
+        usuario.FechaActualizacion = DateTime.UtcNow;
+
         await _repository.ActualizarAsync(usuario);
         return true;
     }
@@ -66,5 +84,5 @@ public class UsuarioService : IUsuarioService
     }
 
     private static UsuarioResponseDto Mapear(Usuario u) =>
-        new(u.Id, u.Nombre, u.Correo, u.Telefono, u.Activo);
+        new(u.Id, u.Nombre, u.Correo, u.Telefono, u.Activo, u.FechaCreacion, u.FechaActualizacion);
 }

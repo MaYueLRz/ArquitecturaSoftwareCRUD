@@ -15,9 +15,16 @@ public class UsuariosController : ControllerBase
         _service = service;
     }
 
+    /// <summary>
+    /// Lista usuarios con busqueda opcional por nombre o correo y paginacion.
+    /// Ejemplo: /api/usuarios?buscar=laura&pagina=1&tamanoPagina=10
+    /// </summary>
     [HttpGet]
-    public async Task<IActionResult> Get() =>
-        Ok(await _service.ObtenerTodosAsync());
+    public async Task<IActionResult> Get(
+        [FromQuery] string? buscar = null,
+        [FromQuery] int pagina = 1,
+        [FromQuery] int tamanoPagina = 10) =>
+        Ok(await _service.ObtenerTodosAsync(buscar, pagina, tamanoPagina));
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)

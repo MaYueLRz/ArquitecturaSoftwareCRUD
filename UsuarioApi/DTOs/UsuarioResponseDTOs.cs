@@ -5,5 +5,7 @@ public record UsuarioResponseDto(
     string Nombre,
     string Correo,
     string Telefono,
-    bool Activo
+    bool Activo,
+    DateTime FechaCreacion,
+    DateTime? FechaActualizacion
 );
